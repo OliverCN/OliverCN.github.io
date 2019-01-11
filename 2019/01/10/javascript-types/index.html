@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;每一门编程语言都有自己内置的数据结构，但不同语言的数据结构常有不同之处。Javascript是一种弱类型或者说是动态类型语言，也就意外着可以不用提前声明变量的类型，程序在运行过程中，类型会被自动确定，这也意外着同一个变量在程序运行过程中可以保存不同类型的数据。 &amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;在Javascript中总共有6中简单数据">
+<meta name="keywords" content="javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Javascript中的数据类型">
+<meta property="og:url" content="http://yoursite.com/2019/01/10/javascript-types/index.html">
+<meta property="og:site_name" content="Oliver&#39;s Picker">
+<meta property="og:description" content="&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;每一门编程语言都有自己内置的数据结构，但不同语言的数据结构常有不同之处。Javascript是一种弱类型或者说是动态类型语言，也就意外着可以不用提前声明变量的类型，程序在运行过程中，类型会被自动确定，这也意外着同一个变量在程序运行过程中可以保存不同类型的数据。 &amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;在Javascript中总共有6中简单数据">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-01-11T03:29:24.429Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Javascript中的数据类型">
+<meta name="twitter:description" content="&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;每一门编程语言都有自己内置的数据结构，但不同语言的数据结构常有不同之处。Javascript是一种弱类型或者说是动态类型语言，也就意外着可以不用提前声明变量的类型，程序在运行过程中，类型会被自动确定，这也意外着同一个变量在程序运行过程中可以保存不同类型的数据。 &amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;在Javascript中总共有6中简单数据">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/10/javascript-types/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Javascript中的数据类型 | Oliver's Picker</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Oliver's Picker</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Take the beauties on the way to endless mysteries!</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">2</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">3</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">2</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/10/javascript-types/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Oliver">
+      <meta itemprop="description" content="不怕在摸索中一次次跌倒，就怕面对困难踌躇不前！">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Oliver's Picker">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Javascript中的数据类型
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-01-10 20:52:27" itemprop="dateCreated datePublished" datetime="2019-01-10T20:52:27+08:00">2019-01-10</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/javascript基础/" itemprop="url" rel="index"><span itemprop="name">javascript基础</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&ensp;&ensp;&ensp;&ensp;每一门编程语言都有自己内置的数据结构，但不同语言的数据结构常有不同之处。Javascript是一种<strong>弱类型</strong>或者说是<strong>动态类型语言</strong>，也就意外着可以不用提前声明变量的类型，程序在运行过程中，类型会被自动确定，这也意外着<strong><u>同一个变量在程序运行过程中可以保存不同类型的数据</u></strong>。</p>
+<p>&ensp;&ensp;&ensp;&ensp;在Javascript中总共有6中简单数据类型（也叫基本数据类型）：Boolean、Number、String、Undefined、Null和Symbol（ES6新定义的），还有一种复杂数据类型：Object，而Object本质上是由一组无须键值对组成。</p>
+<p>&ensp;&ensp;&ensp;&ensp;<strong><u>除了Object以外的所有类型都是不可变的，值本身无法被改变</u></strong>，字符串也是不可变的，对字符串的操作其实是返回了一个新的字符串，原始字符串并没有改变。</p>
+<h2 id="Boolean类型"><a href="#Boolean类型" class="headerlink" title="Boolean类型"></a>Boolean类型</h2><p>该类型只有两个字面值：true和false。</p>
+<p>虽然Boolean类型的字面值只有两个，但Javascript中所有类型的值都可以转换成Boolean，可以显式调用类型转换函数Boolean()，例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> str = <span class="string">'hello'</span>;</span><br><span class="line"><span class="keyword">var</span> strAsBoolean = <span class="built_in">Boolean</span>(str);</span><br><span class="line"><span class="built_in">console</span>.log(strAsBoolean);  <span class="comment">// print true</span></span><br></pre></td></tr></table></figure>
+<p>任何数据类型的值调用Boolean()函数都会返回一个true或false，至于会是哪个，取决于数据类型以及其实际值。下表给出了各种数据类型转Boolean的结果规则：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">数据类型</th>
+<th style="text-align:center">转为true</th>
+<th style="text-align:center">转为false</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">String</td>
+<td style="text-align:center">任何非空字符串</td>
+<td style="text-align:center">‘’</td>
+</tr>
+<tr>
+<td style="text-align:center">Number</td>
+<td style="text-align:center">任何非零数字</td>
+<td style="text-align:center">0和NaN</td>
+</tr>
+<tr>
+<td style="text-align:center">Object</td>
+<td style="text-align:center">任何对象</td>
+<td style="text-align:center">null</td>
+</tr>
+<tr>
+<td style="text-align:center">Undefined</td>
+<td style="text-align:center">n/a(不适用)</td>
+<td style="text-align:center">undefined</td>
+</tr>
+</tbody>
+</table>
+<p>另外，<strong><u>在控制流语句（如if）中将会自动执行Boolean转换。</u></strong></p>
+<h2 id="Number类型"><a href="#Number类型" class="headerlink" title="Number类型"></a>Number类型</h2><p>这种类型用来表示整数和浮点数值，以及一种特殊的值，即NaN（非数值，Not a number），这个数值表示<strong>本来要返回数值的操作数未返回数值</strong>的情况，这样可以避免抛出异常了。对于Number类型，有以下几点需要注意：</p>
+<ul>
+<li>NaN，前面已经说了这个值的好处，不会像其他语言出现错误导致程序无法继续执行。除此之外，任何与NaN的操作都返回NaN，如：</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="number">99</span> + <span class="literal">NaN</span>);  <span class="comment">// Print NaN</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">99</span> - <span class="literal">NaN</span>);  <span class="comment">// Print NaN</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">99</span> * <span class="literal">NaN</span>);  <span class="comment">// Print NaN</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">99</span> / <span class="literal">NaN</span>);  <span class="comment">// Print NaN</span></span><br></pre></td></tr></table></figure>
+<p>另外，NaN与任何值都不相等，包括NaN本身。</p>
+<ul>
+<li>JavaScript中有一个isNaN()函数，接受一个参数，用来确定该参数是否“不是数值”。isNaN()在接收一个值之后，会尝试将这个值转换为数值。某些不是数值的值会直接转换为数值，例如字符串”10“或Boolean值。而任何不能被转换为数值的值都会导致这个函数返回true。例如：</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">alert(<span class="built_in">isNaN</span>(<span class="literal">NaN</span>));    <span class="comment">//true</span></span><br><span class="line">alert(<span class="built_in">isNaN</span>(<span class="number">10</span>));    <span class="comment">//false(10是一个数值)</span></span><br><span class="line">alert(<span class="built_in">isNaN</span>(<span class="string">"10"</span>));    <span class="comment">//false(可能被转换为数值10)</span></span><br><span class="line">alert(<span class="built_in">isNaN</span>(<span class="string">"blue"</span>));    <span class="comment">//true(不能被转换为数值)</span></span><br><span class="line">alert(<span class="built_in">isNaN</span>(<span class="literal">true</span>));    <span class="comment">//false(可能被转换为数值1)</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>有3个函数可以把非数值转换为数值：Number()、parseInt()和parseFloat()。第一个函数，即转型函数Number()可以用于任何数据类型，而另外两个函数则专门用于把字符串转换成数值。这3个函数对于同样的输入会返回不同的结果。</li>
+</ul>
+<p>Number()函数的转换规则如下：</p>
+<p>　　● 如果是Boolean值，true和false将分别被替换为1和0</p>
+<p>　　● 如果是数字值，只是简单的传入和返回</p>
+<p>　　● 如果是null值，返回0</p>
+<p>　　● 如果是undefined，返回NaN</p>
+<p>　　● 如果是字符串，遵循下列规则：</p>
+<p>　　　○ 如果字符串中只包含数字，则将其转换为十进制数值，即”1“会变成1，”123“会变成123，而”011“会变成11（前导的0被忽略）</p>
+<p>　　　○ 如果字符串中包含有效的浮点格式，如”1.1“，则将其转换为对应的浮点数（同样，也会忽略前导0）</p>
+<p>　　　○ 如果字符串中包含有效的十六进制格式，例如”0xf“，则将其转换为相同大小的十进制整数值</p>
+<p>　　　○ 如果字符串是空的，则将其转换为0</p>
+<p>　　　○ 如果字符串中包含除了上述格式之外的字符，则将其转换为NaN</p>
+<p>　　● 如果是对象，则调用对象的valueOf()方法，然后依照前面的规则转换返回的值。如果转换的结果是NaN，则调用对象的toString()方法，然后再依次按照前面的规则转换返回的字符串值。</p>
+<h2 id="String类型"><a href="#String类型" class="headerlink" title="String类型"></a>String类型</h2><p>String类型用于表示由零或多个16位Unicode字符组成的字符序列，即字符串。字符串可以由单引号(‘)或双引号(“)表示。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> str1 = <span class="string">"Hello"</span>;</span><br><span class="line"><span class="keyword">var</span> str2 = <span class="string">'Hello'</span>;</span><br></pre></td></tr></table></figure>
+<p>　　任何字符串的长度都可以通过访问其length属性取得</p>
+<p>　　alert(str1.length);        //输出5<br>　　要把一个值转换为一个字符串有两种方式。第一种是使用几乎每个值都有的toString()方法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> age = <span class="number">11</span>;</span><br><span class="line"><span class="keyword">var</span> ageAsString = age.toString();    <span class="comment">//字符串"11"</span></span><br><span class="line"><span class="keyword">var</span> found = <span class="literal">true</span>;</span><br><span class="line"><span class="keyword">var</span> foundAsString = found.toString();    <span class="comment">//字符串"true"</span></span><br></pre></td></tr></table></figure>
+<p>数值、布尔值、对象和字符串值都有toString()方法。但null和undefined值没有这个方法。</p>
+<p>　　多数情况下，调用toString()方法不必传递参数。但是，在调用数值的toString()方法时，可以传递一个参数：输出数值的基数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> num = <span class="number">10</span>;</span><br><span class="line">alert(num.toString());      <span class="comment">//"10"</span></span><br><span class="line">alert(num.toString(<span class="number">2</span>));     <span class="comment">//"1010"</span></span><br><span class="line">alert(num.toString(<span class="number">8</span>));     <span class="comment">//"12"</span></span><br><span class="line">alert(num.toString(<span class="number">10</span>));    <span class="comment">//"10"</span></span><br><span class="line">alert(num.toString(<span class="number">16</span>));    <span class="comment">//"a"</span></span><br></pre></td></tr></table></figure>
+<p>通过这个例子可以看出，通过指定基数，toString()方法会改变输出的值。而数值10根据基数的不同，可以在输出时被转换为不同的数值格式。</p>
+<p>　　在不知道要转换的值是不是null或undefined的情况下，还可以使用转型函数String()，这个函数能够将任何类型的值转换为字符串。String()函数遵循下列转换规则：</p>
+<p>　　● 如果值有toString()方法，则调用该方法（没有参数）并返回相应的结果</p>
+<p>　　● 如果值是null，则返回”null”</p>
+<p>　　● 如果值是undefined，则返回”undefined“</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> value1 = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">var</span> value2 = <span class="literal">true</span>;</span><br><span class="line"><span class="keyword">var</span> value3 = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">var</span> value4;</span><br><span class="line">alert(<span class="built_in">String</span>(value1));    <span class="comment">//"10"</span></span><br><span class="line">alert(<span class="built_in">String</span>(value2));    <span class="comment">//"true"</span></span><br><span class="line">alert(<span class="built_in">String</span>(value3));    <span class="comment">//"null"</span></span><br><span class="line">alert(<span class="built_in">String</span>(value4));    <span class="comment">//"undefined"</span></span><br></pre></td></tr></table></figure>
+<h2 id="Object类型"><a href="#Object类型" class="headerlink" title="Object类型"></a>Object类型</h2><p>对象其实就是一组数据和功能的集合。对象可以通过执行new操作符后跟要创建的对象类型的名称来创建。而创建Object类型的实例并为其添加属性和（或）方法，就可以创建自定义对象。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　<span class="keyword">var</span> o = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br></pre></td></tr></table></figure>
+<p>　　Object的每个实例都具有下列属性和方法：</p>
+<p>　　● constructor——保存着用于创建当前对象的函数</p>
+<p>　　● hasOwnProperty(propertyName)——用于检查给定的属性在当前对象实例中（而不是在实例的原型中）是否存在。其中，作为参数的属性名(propertyName)必须以字符串形式指定（例如：o.hasOwnProperty(“name”)）</p>
+<p>　　● isPrototypeOf(object)——用于检查传入的对象是否是另一个对象的原型</p>
+<p>　　● propertyIsEnumerable(propertyName)——用于检查给定的属性是否能够使用for-in语句来枚举</p>
+<p>　　● toString()——返回对象的字符串表示</p>
+<p>　　● valueOf()——返回对象的字符串、数值或布尔值表示。通常与toString()方法的返回值相同。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javascript/" rel="tag"># javascript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/06/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/avatar.jpg" alt="Oliver">
+            
+              <p class="site-author-name" itemprop="name">Oliver</p>
+              <p class="site-description motion-element" itemprop="description">不怕在摸索中一次次跌倒，就怕面对困难踌躇不前！</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/OliverCN" title="GitHub &rarr; https://github.com/OliverCN" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:lihouliang@outlook.com" title="E-Mail &rarr; mailto:lihouliang@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=971973053" "="" title="QQ &rarr; tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=971973053" rel="noopener" target="_blank"><i class="fa fa-fw fa-qq"></i>QQ</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://segmentfault.com/u/daodangegewu" title="Segmentfault &rarr; https://segmentfault.com/u/daodangegewu" rel="noopener" target="_blank"><i class="fa fa-fw fa-stack-overflow"></i>Segmentfault</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Boolean类型"><span class="nav-number">1.</span> <span class="nav-text">Boolean类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Number类型"><span class="nav-number">2.</span> <span class="nav-text">Number类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#String类型"><span class="nav-number">3.</span> <span class="nav-text">String类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Object类型"><span class="nav-number">4.</span> <span class="nav-text">Object类型</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Oliver</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v6.7.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
